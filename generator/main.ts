@@ -25,6 +25,7 @@ import snakeCase = require('snake-case');
 
 import IDLDefinition from './parser/idl_definition';
 import Parser from './parser/parser';
+import {JsTypeInfos} from './types/js_type_traits';
 
 const TEMPLATE_DIR = path.resolve(__dirname, '../../../template');
 
@@ -44,6 +45,15 @@ async function generateBacardi(
 
   return file.write(
       cpp_file_path, env.renderString(cpp_tmpl, {interfaces: idl_interfaces}));
+}
+
+async function generateJsTypeTraits(
+    env: nunjucks.Environment, output_path: string) {
+  const js_type_tmpl =
+      await file.read(path.resolve(TEMPLATE_DIR, 'jstypes_traits.njk'));
+  const js_type_file_path = path.resolve(output_path, 'js_type_traits.h');
+  await file.write(
+      js_type_file_path, env.renderString(js_type_tmpl, {types: JsTypeInfos}));
 }
 
 async function generateInterface(
@@ -94,6 +104,8 @@ async function main([root_dir, out_dir, ...idl_files]) {
 
   let definitions: IDLDefinition[] =
       await Parser.parse(await reader.readAll(relative_idl_files));
+
+  await generateJsTypeTraits(env, out_dir);
   await generateInterface(env, out_dir, definitions);
   await generateBacardi(env, out_dir, definitions);
 

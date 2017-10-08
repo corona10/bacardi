@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#ifndef CORE_JS_TYPE_TRAITS_H_
-#define CORE_JS_TYPE_TRAITS_H_
+#ifndef JS_TYPE_TRAITS_H_
+#define JS_TYPE_TRAITS_H_
 
 #include <napi.h>
 
@@ -43,15 +43,16 @@ inline Napi::Value JSTypeTraits(Napi::Env env, T value) {
     return Napi::String::New(env, value);                      \
   }
 
-// TODO(corona10): Auto generate JS_TYPE_TRAITS_XXXX.
+{% for type in types['number'] %}
+JS_TYPE_TRAITS_NUMBER({{type}});
+{% endfor %}
 
-JS_TYPE_TRAITS_NUMBER(int16_t);
-JS_TYPE_TRAITS_NUMBER(int32_t);
-JS_TYPE_TRAITS_NUMBER(int64_t);
-JS_TYPE_TRAITS_NUMBER(double);
+{% for type in types['string'] %}
+JS_TYPE_TRAITS_STRING({{type}});
+{% endfor %}
 
-JS_TYPE_TRAITS_BOOLEAN(bool);
+{% for type in types['boolean'] %}
+JS_TYPE_TRAITS_BOOLEAN({{type}});
+{% endfor %}
 
-JS_TYPE_TRAITS_STRING(std::string);
-
-#endif  // CORE_JS_TYPE_TRAITS_H_
+#endif // JS_TYPE_TRAITS_H_

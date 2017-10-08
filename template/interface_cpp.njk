@@ -15,8 +15,8 @@
  */
 
 #include "{{idl_dir_name}}/{{name | snakecase}}_bridge.h"
+#include "js_type_traits.h"
 
-#include "core/js_type_traits.h"
 #include "core/native_type_traits.h"
 
 void {{name}}Bridge::Init(Napi::Env env, Napi::Object exports) {

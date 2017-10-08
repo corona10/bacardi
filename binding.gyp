@@ -57,6 +57,7 @@
         '<@(test_cpp_files)',
         '<@(test_idl_output_files)',
         '<(SHARED_INTERMEDIATE_DIR)/bacardi.cc',
+        '<(SHARED_INTERMEDIATE_DIR)/js_type_traits.h'
       ],
       'defines': [ 'NAPI_DISABLE_CPP_EXCEPTIONS' ],
     },
